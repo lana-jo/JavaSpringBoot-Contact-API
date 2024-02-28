@@ -18,19 +18,19 @@
 # CMD ["java", "-jar", "ContactApiapplication.jar"]
 
 
-FROM eclipse-temurin:17-jdk-focal
+FROM openjdk:17-jdk-slim AS build
 
-WORKDIR /app
+COPY pom.xml mvnw ./
+COPY .mvn .mvn
+RUN ./mvnw dependency:resolve
 
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
-RUN ./mvnw dependency:go-offline
+COPY src src
+RUN ./mvnw package
 
-COPY src ./src
-
-CMD ["./mvnw", "spring-boot:run"]
-
-
+FROM openjdk:17-jdk-slim
+WORKDIR demo
+COPY --from=build target/*.jar contact-api.jar
+ENTRYPOINT ["java", "-jar", "contact-api.jar"]
 #FROM ubuntu:latest AS build
 #RUN apt-get-update
 #RUN apt-get install openjdk-17-jdk -y
