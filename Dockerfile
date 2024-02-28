@@ -1,5 +1,29 @@
 FROM eclipse-temurin:17-jdk-focal
 
+FROM ubuntu:latest AS build
+RUN apt-get-update
+RUN apt-get install openjdk-17-jdk -y
+COPY . .
+
+
+FROM  maven:3.8.5-openjdk-17 AS build
+COPY . .
+RUN mvn clean package -DskipTests
+
+FROM openjdk:17.0.1-jdk-slim
+COPY --from=build /target/contact-api.0.0.1-SNAPSHOT.jar contact-api.jar
+EXPOSE 8081
+ENTRYPOINT ["java", "-jar","contact-api.jar"]
+WORKDIR /app
+
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+RUN ./mvnw dependency:go-offline
+
+COPY src ./src
+
+CMD ["./mvnw", "spring-boot:run"]
+
 # # Use an official Maven image as the base image
 # FROM  maven:3.8.5-openjdk-17 AS build
 # # Set the working directory in the container
@@ -32,26 +56,3 @@ FROM eclipse-temurin:17-jdk-focal
 # WORKDIR contact-api
 # COPY --from=build target/*.jar contact-api.0.0.1-SNAPSHOT.jar
 # ENTRYPOINT ["java", "-jar", "contact-api.0.0.1-SNAPSHOT.jar"]
-FROM ubuntu:latest AS build
-RUN apt-get-update
-RUN apt-get install openjdk-17-jdk -y
-COPY . .
-
-
-FROM  maven:3.8.5-openjdk-17 AS build
-COPY . .
-RUN mvn clean package -DskipTests
-
-FROM openjdk:17.0.1-jdk-slim
-COPY --from=build /target/contact-api.0.0.1-SNAPSHOT.jar contact-api.jar
-EXPOSE 8081
-ENTRYPOINT ["java", "-jar","contact-api.jar"]
-WORKDIR /app
-
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
-RUN ./mvnw dependency:go-offline
-
-COPY src ./src
-
-CMD ["./mvnw", "spring-boot:run"]
