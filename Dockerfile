@@ -1,5 +1,5 @@
-FROM bfg/api-java8-maven-exp-srv-builder
-EXPOSE 8080
+FROM eclipse-temurin:17-jdk-focal
+EXPOSE 8081
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
