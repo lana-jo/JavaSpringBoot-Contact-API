@@ -1,3 +1,24 @@
+FROM maven:3.8.5-openjdk-17 as maven-builder
+COPY src /etd/src
+
+COPY pom.xml /etd
+
+# COPY frontend /etd/frontend
+
+RUN mvn -f /etd/pom.xml clean install -Pproduction -DskipTests
+
+FROM eclipse-temurin:17-jdk-focal 
+
+# FROM openjdk:17-alpine
+
+COPY --from=maven-builder etd/target/contact-api-0.0.1-SNAPSHOT.jar contact-api-0.0.1-SNAPSHOT.jar
+
+WORKDIR /etd
+
+EXPOSE 8081
+
+ENTRYPOINT ["java","-jar","/contact-api-0.0.1-SNAPSHOT.jar"]
+
 #
 # build stage
 #
@@ -31,19 +52,19 @@
 # ENTRYPOINT ["java", "-jar", "demo.jar"]
 
 
-FROM maven:3.8.5-openjdk-17 AS build
-COPY . .
-RUN mvn clean package -DskipTests
-EXPOSE 8081
+# FROM maven:3.8.5-openjdk-17 AS build
+# COPY . .
+# RUN mvn clean package -DskipTests
+# EXPOSE 8081
 
-FROM eclipse-temurin:17-jdk-focal 
-RUN mkdir -p \usr\src\app
-WORKDIR \usr\src\app
-ONBUILD ADD . \usr\src\app
-ONBUILD RUN mvn install
-ONBUILD ADD \usr\src\app\target\contact-api.0.0.1-SNAPSHOT.jar app.jar
+# FROM eclipse-temurin:17-jdk-focal 
+# RUN mkdir -p \usr\src\app
+# WORKDIR \usr\src\app
+# ONBUILD ADD . \usr\src\app
+# ONBUILD RUN mvn install
+# ONBUILD ADD \usr\src\app\target\contact-api.0.0.1-SNAPSHOT.jar app.jar
 
-ENTRYPOINT ["java","-jar", "./app.jar"]
+# ENTRYPOINT ["java","-jar", "./app.jar"]
 # CMD ["./mvnw", "spring-boot:run"]
 # CMD ["java","-jar", "contact-api.jar"]
 # FROM eclipse-temurin:17-jdk-focal
