@@ -28,9 +28,9 @@ COPY src src
 RUN ./mvnw package
 
 FROM openjdk:17-jdk-slim
-WORKDIR demo
-COPY --from=build target/*.jar contact-api.jar
-ENTRYPOINT ["java", "-jar", "contact-api.jar"]
+WORKDIR contact-api
+COPY --from=build target/*.jar contact-api.0.0.1-SNAPSHOT.jar
+ENTRYPOINT ["java", "-jar", "contact-api.0.0.1-SNAPSHOT.jar"]
 #FROM ubuntu:latest AS build
 #RUN apt-get-update
 #RUN apt-get install openjdk-17-jdk -y
