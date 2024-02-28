@@ -1,13 +1,29 @@
-FROM eclipse-temurin:17-jdk-focal
-EXPOSE 8081
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-ONBUILD ADD . /usr/src/app
-ONBUILD RUN mvn install
-ONBUILD ADD /usr/src/app/target/contact-api.0.0.1-SNAPSHOT.jar contact-api.jar
+FROM openjdk:17-jdk-slim AS build
 
-CMD ["java","-jar","/contact-api.jar"]
+COPY pom.xml mvnw ./
+COPY .mvn .mvn
+RUN ./mvnw dependency:resolve
+EXPOSE 8080
+
+COPY src src
+RUN ./mvnw package
+
+FROM openjdk:17-jdk-slim
+WORKDIR demo
+COPY --from=build target/*.jar demo.jar
+ENTRYPOINT ["java", "-jar", "demo.jar"]
+
+# FROM eclipse-temurin:17-jdk-focal
+# EXPOSE 8081
+
+# RUN mkdir -p /usr/src/app
+# WORKDIR /usr/src/app
+# ONBUILD ADD . /usr/src/app
+# ONBUILD RUN mvn install
+# ONBUILD ADD /usr/src/app/target/contact-api.0.0.1-SNAPSHOT.jar contact-api.jar
+
+# CMD ["java","-jar","/contact-api.jar"]
 
 # FROM eclipse-temurin:17-jdk-focal
 
