@@ -11,7 +11,7 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 FROM openjdk:17.0.1-jdk-slim
-COPY --from=build /target/contact-api.0.0.1-SNAPSHOT.jar contact-api.jar
+COPY --from=build /target/contact-api.0.0.1-SNAPSHOT.jar
 EXPOSE 8081
 ENTRYPOINT ["java", "-jar","contact-api.jar"]
 WORKDIR /app
