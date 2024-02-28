@@ -11,12 +11,16 @@ Content-Type: application/json
 }
 
 ###Logout
-
+DELETE http://localhost:8081/api/auth/logout
+Accept: application/json
+Content-Type: application/json
+X-API-TOKEN: test
 
 ###Login
 POST http://localhost:8081/api/auth/login
 Accept: application/json
 Content-Type: application/json
+
 
 {
   "username": "lana",
@@ -27,14 +31,14 @@ Content-Type: application/json
 GET http://localhost:8081/api/currentUser
 Accept: application/json
 Content-Type: application/json
-X-API-TOKEN: 2d97185a-83ae-40d8-99da-1ec8b6e34d43
+X-API-TOKEN: 506f75b8-b2b9-456d-b7a1-8c032492e899
 
 
 ### Update Current User
 PATCH http://localhost:8081/api/currentUser
 Accept: application/json
 Content-Type: application/json
-X-API-TOKEN: 2d97185a-83ae-40d8-99da-1ec8b6e34d43
+X-API-TOKEN: 506f75b8-b2b9-456d-b7a1-8c032492e899
 
 {
 "name": "Muhammad Lana Jauhar"
@@ -44,7 +48,7 @@ X-API-TOKEN: 2d97185a-83ae-40d8-99da-1ec8b6e34d43
 POST http://localhost:8081/api/contacts/create
 Accept: application/json
 Content-Type: application/json
-X-API-TOKEN: 9ff47d3b-0c98-4775-b459-8c7551085a02
+X-API-TOKEN: 506f75b8-b2b9-456d-b7a1-8c032492e899
 
 {
   "firstName": "jeki",
@@ -56,7 +60,7 @@ X-API-TOKEN: 9ff47d3b-0c98-4775-b459-8c7551085a02
 POST http://localhost:8081/api/contacts/create
 Accept: application/json
 Content-Type: application/json
-X-API-TOKEN: 8086a574-102a-4ce8-a9bd-7cdb7dfdaf05
+X-API-TOKEN: 506f75b8-b2b9-456d-b7a1-8c032492e899
 
 {
   "firstName": "ahmad",
@@ -66,22 +70,22 @@ X-API-TOKEN: 8086a574-102a-4ce8-a9bd-7cdb7dfdaf05
 }
 
 ### Search Contact
-GET http://localhost:8081/api/contacts?email=com
+GET http://localhost:8081/api/contacts
 Accept: application/json
-X-API-TOKEN: 2d97185a-83ae-40d8-99da-1ec8b6e34d43
+X-API-TOKEN: 506f75b8-b2b9-456d-b7a1-8c032492e899
 
 
 ### Get Contact
-GET http://localhost:8081/api/contacts/31a8e974-33e6-4d14-aaa1-7954463ab75f
+GET http://localhost:8081/api/contacts/d96e66be-4426-4bc1-af27-ba5b8ec8df17
 Accept: application/json
 X-API-TOKEN: 2d97185a-83ae-40d8-99da-1ec8b6e34d43
 
 
 ### Update Contact
-PUT http://localhost:8081/api/contacts/31a8e974-33e6-4d14-aaa1-7954463ab75f
+PUT http://localhost:8081/api/contacts/d96e66be-4426-4bc1-af27-ba5b8ec8df17
 Accept: application/json
 Content-Type: application/json
-X-API-TOKEN: 2d97185a-83ae-40d8-99da-1ec8b6e34d43
+X-API-TOKEN: 506f75b8-b2b9-456d-b7a1-8c032492e899
 
 {
   "firstName": "Ika",
@@ -96,13 +100,13 @@ Accept: application/json
 X-API-TOKEN: 2d97185a-83ae-40d8-99da-1ec8b6e34d43
 
 ### Create Address
-POST http://localhost:8081/api/contacts/492c65d0-0ff7-4c21-90a0-bfdad5486363/addresses
+POST http://localhost:8081/api/contacts/d96e66be-4426-4bc1-af27-ba5b8ec8df17/addresses
 Accept: application/json
 Content-Type: application/json
-X-API-TOKEN: 8086a574-102a-4ce8-a9bd-7cdb7dfdaf05
+X-API-TOKEN: 506f75b8-b2b9-456d-b7a1-8c032492e899
 
 {
-  "street": "jalan 1",
+  "street": "jalan 2",
   "city": "semarang1",
   "province": "jawa tengah1",
   "country": "Indonesia1",
@@ -110,9 +114,9 @@ X-API-TOKEN: 8086a574-102a-4ce8-a9bd-7cdb7dfdaf05
 }
 
 ### List Address
-GET http://localhost:8081/api/contacts/492c65d0-0ff7-4c21-90a0-bfdad5486363/addresses
+GET http://localhost:8081/api/contacts/d96e66be-4426-4bc1-af27-ba5b8ec8df17/addresses
 Accept: application/json
-X-API-TOKEN: 8086a574-102a-4ce8-a9bd-7cdb7dfdaf05
+X-API-TOKEN: 506f75b8-b2b9-456d-b7a1-8c032492e899
 
 
 ### Update Address

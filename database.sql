@@ -1,4 +1,4 @@
-CREATE DATABASE contact_api_java;
+CREATE DATABASE contact_api;
 
 use contact_api;
 
@@ -46,6 +46,8 @@ create table addresses(
 ) engine innoDB;
 
 
-delete from addresses;
+delete from contact_api.addresses;
 delete from users;
 delete from contacts;
+
+
