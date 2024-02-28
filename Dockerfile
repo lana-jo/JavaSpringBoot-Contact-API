@@ -14,7 +14,7 @@
 # COPY --from=build target/*.jar demo.jar
 # ENTRYPOINT ["java", "-jar", "demo.jar"]
 
-FROM eclipse-temurin:17-jdk-focal
+FROM eclipse-temurin:17-jdk-focal AS build
 EXPOSE 8081
 
 RUN mkdir -p /usr/src/app
