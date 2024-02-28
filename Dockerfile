@@ -23,9 +23,9 @@ RUN mkdir -p \usr\src\app
 WORKDIR \usr\src\app
 ONBUILD ADD . \usr\src\app
 ONBUILD RUN mvn install
-ONBUILD ADD \usr\src\app\target\contact-api.0.0.1-SNAPSHOT.jar contact-api.jar
+ONBUILD ADD \usr\src\app\target\contact-api.0.0.1-SNAPSHOT.jar app.jar
 
-ENTRYPOINT ["java","-jar", "contact-api.jar"]
+ENTRYPOINT ["java","-jar", "app.jar"]
 CMD ["./mvnw", "spring-boot:run"]
 # CMD ["java","-jar", "contact-api.jar"]
 # FROM eclipse-temurin:17-jdk-focal
