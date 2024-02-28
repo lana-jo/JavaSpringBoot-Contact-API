@@ -1,20 +1,32 @@
 #
 # build stage
 #
+FROM openjdk:17-jdk-slim AS build
 
-FROM maven:3.8.5-openjdk-17 AS build
-COPY . .
-RUN mvn clean package -DskipTests
+COPY pom.xml mvnw ./
+COPY .mvn .mvn
+RUN ./mvnw dependency:resolve
 
-#
-#Package stage
-#
+COPY src src
+RUN ./mvnw package
 
 FROM openjdk:17-jdk-slim
-EXPOSE 8081
 WORKDIR /app
-COPY from=build /app/target/*.jar app.jar
-CMD ["java","-jar", "app.jar"]
+COPY --from=build target/*.jar demo.jar
+ENTRYPOINT ["java", "-jar", "demo.jar"]
+# FROM maven:3.8.5-openjdk-17 AS build
+# COPY . .
+# RUN mvn clean package -DskipTests
+
+# #
+# #Package stage
+# #
+
+# FROM openjdk:17-jdk-slim
+# EXPOSE 8081
+# WORKDIR /app
+# COPY from=build /app/target/*.jar app.jar
+# CMD ["java","-jar", "app.jar"]
 
 # FROM openjdk:17-jdk-slim AS build
 
