@@ -14,9 +14,12 @@
 # COPY --from=build target/*.jar demo.jar
 # ENTRYPOINT ["java", "-jar", "demo.jar"]
 
-FROM eclipse-temurin:17-jdk-focal AS build
+FROM maven:3.8.5-openjdk-17 AS build
+COPY . .
+RUN mvn clean package -DskipTests
 EXPOSE 8081
 
+FROM eclipse-temurin:17-jdk-focal 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 ONBUILD ADD . /usr/src/app
