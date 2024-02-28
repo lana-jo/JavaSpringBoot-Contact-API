@@ -21,7 +21,7 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 ONBUILD ADD . /usr/src/app
 ONBUILD RUN mvn install
-ONBUILD ADD /usr/src/app/target/*.jar contact-api.jar
+ONBUILD ADD /usr/src/app/target/contact-api.0.0.1-SNAPSHOT.jar contact-api.jar
 
 CMD ["java","-jar", "contact-api.jar"]
 
