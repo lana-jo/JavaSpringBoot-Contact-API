@@ -13,7 +13,7 @@
 # WORKDIR demo
 # COPY --from=build target/*.jar demo.jar
 # ENTRYPOINT ["java", "-jar", "demo.jar"]
-# FROM maven:3.8.5-openjdk-17 AS build
+FROM maven:3.8.5-openjdk-17 AS build
 COPY . .
 RUN mvn clean package -DskipTests
 EXPOSE 8081
@@ -25,7 +25,8 @@ ONBUILD ADD . \usr\src\app
 ONBUILD RUN mvn install
 ONBUILD ADD \usr\src\app\target\contact-api.0.0.1-SNAPSHOT.jar contact-api.jar
 
-CMD ["java","-jar", "contact-api.jar"]
+ENTRYPOINT ["java","-jar", "contact-api.jar"]
+# CMD ["java","-jar", "contact-api.jar"]
 # FROM eclipse-temurin:17-jdk-focal
 
 # FROM ubuntu:latest AS build
