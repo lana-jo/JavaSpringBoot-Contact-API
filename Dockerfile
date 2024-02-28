@@ -18,33 +18,33 @@
 # CMD ["java", "-jar", "ContactApiapplication.jar"]
 
 
-FROM openjdk:17-jdk-slim AS build
+# FROM openjdk:17-jdk-slim AS build
 
-COPY pom.xml mvnw ./
-COPY .mvn .mvn
-RUN ./mvnw dependency:resolve
+# COPY pom.xml mvnw ./
+# COPY .mvn .mvn
+# RUN ./mvnw dependency:resolve
 
-COPY src src
-RUN ./mvnw package
+# COPY src src
+# RUN ./mvnw package
 
-FROM openjdk:17-jdk-slim
-WORKDIR contact-api
-COPY --from=build target/*.jar contact-api.0.0.1-SNAPSHOT.jar
-ENTRYPOINT ["java", "-jar", "contact-api.0.0.1-SNAPSHOT.jar"]
-#FROM ubuntu:latest AS build
-#RUN apt-get-update
-#RUN apt-get install openjdk-17-jdk -y
-#COPY . .
+# FROM openjdk:17-jdk-slim
+# WORKDIR contact-api
+# COPY --from=build target/*.jar contact-api.0.0.1-SNAPSHOT.jar
+# ENTRYPOINT ["java", "-jar", "contact-api.0.0.1-SNAPSHOT.jar"]
+FROM ubuntu:latest AS build
+RUN apt-get-update
+RUN apt-get install openjdk-17-jdk -y
+COPY . .
 
 
-#FROM  maven:3.8.5-openjdk-17 AS build
-#COPY . .
-#RUN mvn clean package -DskipTests
-#
-#FROM openjdk:17.0.1-jdk-slim
-#COPY --from=build /target/demo-0.0.1-SNAPSHOT.jar demo.jar
-#EXPOSE 8081
-#ENTRYPOINT ["java", "-jar","demo.jar"]
+FROM  maven:3.8.5-openjdk-17 AS build
+COPY . .
+RUN mvn clean package -DskipTests
+
+FROM openjdk:17.0.1-jdk-slim
+COPY --from=build /target/contact-api.0.0.1-SNAPSHOT.jar contact-api.0.0.1-SNAPSHOT.jar
+EXPOSE 8081
+ENTRYPOINT ["java", "-jar","contact-api.0.0.1-SNAPSHOT.jar"]
 
 
 #FROM eclipse-temurin:17-jdk-alpine
